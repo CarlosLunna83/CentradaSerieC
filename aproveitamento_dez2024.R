@@ -1,4 +1,4 @@
-# Aproveitamento das equipes da série C no mês de Junho de 2024 (considerando só jogos oficiais)
+# Aproveitamento das equipes da série C no mês de Dezembro de 2024 (considerando só jogos oficiais)
 
 # Objetivo:
 # - Criar script para automatizar aproveitamento dos times da série C, mês a mês
@@ -21,26 +21,26 @@ times_serieC2024_geral <- read_ods("Central da Serie C 2024/jogos dos times da s
 colnames(times_serieC2024_geral)
 
 
-aproveitamento_times_seriec_jun24 <- times_serieC2024_geral %>%
+aproveitamento_times_seriec_dez24 <- times_serieC2024_geral %>%
   select(time, pontos_ganhos, meses, qtd_unidade) %>%
-  filter(str_detect(meses, "junho")) %>%
+  filter(str_detect(meses, "dezembro")) %>%
   group_by(time) %>%
   summarise(pontos_ganhos_geral = sum(pontos_ganhos),
             qtd_pontos_disputados = sum(qtd_unidade)*3,
             ranking_aproveitamento = pontos_ganhos_geral/qtd_pontos_disputados)%>%
   arrange(desc(ranking_aproveitamento))
 
-aproveitamento_times_seriec_jun24
+aproveitamento_times_seriec_dez24
 
 
 
 # Gráfico:
 
 
-aproveitamento_times_seriec_jun24$time <- factor(aproveitamento_times_seriec_jun24$time, 
-                                                 levels = unique(aproveitamento_times_seriec_jun24$time))
+aproveitamento_times_seriec_dez24$time <- factor(aproveitamento_times_seriec_dez24$time, 
+                                                 levels = unique(aproveitamento_times_seriec_dez24$time))
 
-aproveitamento_times_seriec_jun24 %>%
+aproveitamento_times_seriec_dez24 %>%
   ggplot(aes(reorder(x = time, ranking_aproveitamento), y = ranking_aproveitamento)) +
   geom_bar(stat = "identity", fill = "gray", color = "black", alpha = 0.5) +
   coord_flip() +  
@@ -48,18 +48,18 @@ aproveitamento_times_seriec_jun24 %>%
   geom_label(aes(label = percent(ranking_aproveitamento, accuracy = 0.1)),
              position = position_dodge(0.9), 
              vjust = 0.5, size = 2.3, hjust = 0.3) +
-  labs(title = "Aproveitamento times da Série C em Junho 2024",
+  labs(title = "Aproveitamento times da Série C em Dezembro 2024",
        x = "Times",
        y = "Aproveitamento")
 
 
-# Jogos disputados por cada equipe em Junho 2024:
+# Jogos disputados por cada equipe em Dezembro 2024:
 
-jogos_disputados_jun24 <- times_serieC2024_geral %>%
+jogos_disputados_dez24 <- times_serieC2024_geral %>%
   select(time, meses, qtd_unidade) %>%
-  filter(str_detect(meses, "junho")) %>%
+  filter(str_detect(meses, "dezembro")) %>%
   group_by(time) %>%
   summarise(jogos_disputados = sum(qtd_unidade)) %>%
   arrange(desc(jogos_disputados))
 
-jogos_disputados_jun24
+jogos_disputados_dez24

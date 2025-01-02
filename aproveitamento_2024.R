@@ -21,7 +21,6 @@ colnames(times_serieC2024_geral)
 
 aproveitamento_times_seriec_2024 <- times_serieC2024_geral %>%
   select(time, pontos_ganhos, meses, qtd_unidade) %>%
-  filter(!str_detect(meses, "julho")) %>%
   group_by(time) %>%
   summarise(pontos_ganhos_geral = sum(pontos_ganhos),
             qtd_pontos_disputados = sum(qtd_unidade)*3,
@@ -45,7 +44,7 @@ aproveitamento_times_seriec_2024 %>%
   scale_y_continuous(labels = percent_format()) +
   geom_label(aes(label = percent(ranking_aproveitamento, accuracy = 0.1)),
              position = position_dodge(0.9), 
-             vjust = 0.5, size = 1.8, hjust = 0.5) +
+             vjust = 0.5, size = 1.7, hjust = 0.5) +
   labs(title = "Aproveitamento times da Série C em 2024",
        x = "Times",
        y = "Aproveitamento")
@@ -55,7 +54,6 @@ aproveitamento_times_seriec_2024 %>%
 
 jogos_disputados_2024 <- times_serieC2024_geral %>%
   select(time, meses, qtd_unidade) %>%
-  filter(!str_detect(meses, "julho")) %>%
   group_by(time) %>%
   summarise(jogos_disputados = sum(qtd_unidade)) %>%
   arrange(desc(jogos_disputados))
